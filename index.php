@@ -1,43 +1,63 @@
+<style>
+	/*body {*/
+		/*position: relative;*/
+	/*}*/
+
+	/*.output {*/
+		/*position: absolute;*/
+		/*bottom: 0;*/
+		/*left: 0;*/
+		/*right: 0;*/
+		/*height: 100%;*/
+	/*}*/
+
+	/*.output .btn {*/
+		/*position: fixed;*/
+		/*bottom: 15px;*/
+	/*}*/
+</style>
+
 <?php
 //ini_set('display_errors', 1);
 //ini_set('display_startup_errors', 1);
 //error_reporting(E_ALL);
 
-// hospital-plan/hospital-plan/ /contact-us/
-
 function NewHTTP($root_url, $old_url, $new_url) {
-	$header = array(
-		'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12',
-		'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-		'Accept-Language: en-us,en;q=0.5',
-		'Accept-Encoding: gzip,deflate',
-		'Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7'
-	);
+
+	echo '<li>Opening connection to... '.$root_url.$old_url.'<br />';
+
+	ob_flush();
+	flush();
 
 	$ch = curl_init($root_url.$old_url);
 	curl_setopt($ch, CURLOPT_HEADER, true);
 	curl_setopt($ch, CURLOPT_NOBODY, true);
 	curl_setopt($ch, CURLINFO_EFFECTIVE_URL, true);
 	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-	curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+	curl_setopt($ch, CURLOPT_TIMEOUT, 0);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13');
 	curl_exec($ch);
 	$response = curl_getinfo($ch);
+	curl_close($ch);
 
-	if ($response['http_code'] == 200) {// && $response['url'] == $root_url.$new_url) {
-		return true;
-	} else {
-		return false;
-	}
+	echo 'Closed connection to... '.$root_url.$old_url.'</li>';
 
 	ob_flush();
 	flush();
 
-	curl_close($ch);
+	if ($response['http_code'] == 200) {// && $response['url'] == $root_url.$new_url) {
+		return array('success' => true);
+	} else {
+		return array('success' => false, 'response' => $response);
+	}
 }
 
 
 if (isset($_POST['htaccess']) && $_POST['htaccess'] != '' &&
     isset($_POST['url']) && $_POST['url'] != ''):
+
+	echo '<div class="output"><ol>';
 
 	$root_url = 'http://'.$_POST['url'];
 	$urls_to_test = explode("\n", $_POST['htaccess']);
@@ -65,23 +85,20 @@ if (isset($_POST['htaccess']) && $_POST['htaccess'] != '' &&
 	foreach ($urls as $url) {
 		$test = NewHTTP($root_url, $url['old_url'], $url['new_url']);
 
-		if ($test) {
-			$result['succeeded'][] = $url['old_url'].' '.$url['new_url'];
+		if ($test['success']) {
+			$result['succeeded'][] = array($url['old_url'].' '.$url['new_url']);
 		} else {
-			$result['failed'][] = $url['old_url'].' '.$url['new_url'];
+			$result['failed'][] = array($url['old_url'].' '.$url['new_url'], $test['response']);
 		}
 	}
 
 
 	echo '<h1>Successes</h1>';
-	foreach ($result['succeeded'] as $success) {
-		echo $success.'<br />';
-	}
-	echo '<hr />';
+	var_dump($result['succeeded']);
 	echo '<h1>Failures</h1>';
-	foreach ($result['failed'] as $failed) {
-		echo $failed.'<br />';
-	}
+	var_dump($result['failed']);
+
+	echo '</ol></div>';
 else: ?>
 
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />
