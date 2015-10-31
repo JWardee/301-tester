@@ -16,3 +16,11 @@ textarea {
     min-height: 150px;
     resize: vertical;
 }
+
+.progress-bar {
+    transition: width .5s;
+}
+
+.reveal {
+    display: none;
+}

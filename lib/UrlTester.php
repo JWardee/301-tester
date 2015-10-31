@@ -4,6 +4,9 @@
  */
 class UrlTester {
 
+    /**
+     * @var
+     */
     public $results;
     private $delimiter;
     private $root_url;
@@ -70,25 +73,29 @@ class UrlTester {
         $this->results['succeeded'] = array();
         $this->results['failed'] = array();
 
-        //sleep(1);
-
-
-        $this->FlushOutput('<ol>');
-
+        $total = count($this->old_new_urls);
+        $i = 1;
         foreach ($this->old_new_urls as $url) {
 
-            $this->FlushOutput('<li>Opening connection to... '.$this->root_url.$url['old_url'].'<br />');
             $test = $this->TestUrl($url['old_url'], $url['new_url']);
-            $this->FlushOutput('<li>Closing connection to... '.$this->root_url.$url['old_url'].'<br />');
+
+            $percent_complete = $this->GetPercentage($i, $total);
+
+            $this->FlushOutput('<script>
+                                UpdateLoadingbar('.$percent_complete.');
+                                UpdateUrl("Checking '.$this->root_url.$url['old_url'].'...");
+                                </script>');
 
             if ($test['success']) {
                 $this->results['succeeded'][] = array($url['old_url'].' '.$url['new_url']);
             } else {
                 $this->results['failed'][] = array($url['old_url'].' '.$url['new_url'], $test['response']);
             }
+
+            $i++;
         }
 
-        $this->FlushOutput('</ol>');
+        $this->FlushOutput('<script>UpdateUrl("Finished!");</script>');
     }
 
     /**
@@ -121,9 +128,20 @@ class UrlTester {
      * @param $content_to_flush
      */
     private function FlushOutput($content_to_flush) {
+        echo str_repeat(' ',1024*64);
+
         ob_start();
         echo $content_to_flush;
         ob_end_flush();
+    }
+
+    /**
+     * @param $value
+     * @param $total
+     * @return float
+     */
+    private function GetPercentage($value, $total) {
+        return round(($value / $total) * 100);
     }
 
 } 

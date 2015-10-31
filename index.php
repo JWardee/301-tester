@@ -8,8 +8,13 @@ $root_directory = '.';//__DIR__;
 <!DOCTYPE html>
 <html>
 <head lang="en">
+
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="<?php echo $root_directory; ?>/assets/css/style.css" rel="stylesheet" />
+    <link href="<?php echo $root_directory; ?>/assets/css/main.css" rel="stylesheet" />
+
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="<?php echo $root_directory; ?>/assets/js/main.js"></script>
+
     <meta charset="UTF-8">
     <title></title>
 </head>

@@ -1,11 +1,23 @@
 <div class="container">
+
+    <div class="progress">
+        <div id="progress" class="progress-bar progress-bar-success progress-bar-striped" style="width: 0%"></div>
+    </div>
+    <div id="current-url">Starting...</div>
+
     <?php
     require_once $root_directory.'/lib/UrlTester.php';
     $test_urls = new UrlTester($_POST['url'], $_POST['htaccess']);
-
-    echo '<h1>Succeeded</h1>';
-    var_dump($test_urls->results['succeeded']);
-    echo '<h1>Failed</h1>';
-    var_dump($test_urls->results['failed']);
     ?>
+
+    <?php if (count($test_urls->results['failed']) > 0): ?>
+        <div class="accordion">
+            <a href="javascript: void(0);" class="trigger">View Errors (<?php echo count($test_urls->results['failed']); ?>)</a>
+            <div class="reveal">
+                <?php var_dump($test_urls->results['failed']); ?>
+            </div>
+        </div>
+    <?php else: ?>
+        <p>No problems were found!</p>
+    <?php endif; ?>
 </div>
