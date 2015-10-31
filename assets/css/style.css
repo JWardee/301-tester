@@ -1,0 +1,18 @@
+body, html {
+    height: 100%;
+}
+
+.vertical-centre {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.container.-maxwidth {
+    max-width: 400px;
+}
+
+textarea {
+    min-height: 150px;
+    resize: vertical;
+}

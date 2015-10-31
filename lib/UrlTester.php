@@ -70,6 +70,9 @@ class UrlTester {
         $this->results['succeeded'] = array();
         $this->results['failed'] = array();
 
+        //sleep(1);
+
+
         $this->FlushOutput('<ol>');
 
         foreach ($this->old_new_urls as $url) {
