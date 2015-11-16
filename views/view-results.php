@@ -14,7 +14,9 @@
         <div class="accordion">
             <a href="javascript: void(0);" class="trigger">View Errors (<?php echo count($test_urls->results['failed']); ?>)</a>
             <div class="reveal">
-                <?php var_dump($test_urls->results['failed']); ?>
+                <pre>
+                    <?php print_r($test_urls->results['failed']); ?>
+                </pre>
             </div>
         </div>
     <?php else: ?>

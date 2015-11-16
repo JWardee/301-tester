@@ -20,10 +20,9 @@ class UrlTester {
      */
     function __construct($root_url, $url_dump, $delimiter = ' ') {
         $this->delimiter = $delimiter;
-        $this->global_url = $root_url;
         $this->url_dump = $url_dump;
 
-        $this->ProcessRootUrl();
+        $this->SetRootUrl($root_url);
         $this->ProcessUrlDump();
         $this->TestAllUrls();
     }
@@ -31,8 +30,8 @@ class UrlTester {
     /**
      *
      */
-    private function ProcessRootUrl() {
-        $this->root_url = 'http://'.$_POST['url'];
+    private function SetRootUrl($url) {
+        $this->root_url = 'http://'.$url;
     }
 
     /**
@@ -89,7 +88,7 @@ class UrlTester {
             if ($test['success']) {
                 $this->results['succeeded'][] = array($url['old_url'].' '.$url['new_url']);
             } else {
-                $this->results['failed'][] = array($url['old_url'].' '.$url['new_url'], $test['response']);
+                $this->results['failed'][] = array($test['error'], $url['old_url'].' '.$url['new_url'], $test['response']);
             }
 
             $i++;
@@ -117,10 +116,14 @@ class UrlTester {
         $response = curl_getinfo($ch);
         curl_close($ch);
 
-        if ($response['http_code'] == 200) {// && $response['url'] == $root_url.$new_url) {
-            return array('success' => true);
+        if ($response['http_code'] == 200) {
+            if ($response['url'] == trim($this->root_url.$new_url)) {
+                return array('success' => true);
+            } else {
+                return array('success' => false, 'response' => $response, 'error' => 'This URL does not go to its intended destination');
+            }
         } else {
-            return array('success' => false, 'response' => $response);
+            return array('success' => false, 'response' => $response, 'error' => 'This URL 404s');
         }
     }
 

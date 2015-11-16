@@ -3,9 +3,10 @@ body, html {
 }
 
 .vertical-centre {
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
+    /*position: relative;*/
+    /*top: 50%;*/
+    /*transform: translateY(-50%);*/
+    margin-top: 50px;
 }
 
 .container.-maxwidth {
@@ -13,7 +14,7 @@ body, html {
 }
 
 textarea {
-    min-height: 150px;
+    min-height: 250px;
     resize: vertical;
 }
 
