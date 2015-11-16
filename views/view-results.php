@@ -7,7 +7,7 @@
 
     <?php
     require_once $root_directory.'/lib/UrlTester.php';
-    $test_urls = new UrlTester($_POST['url'], $_POST['htaccess']);
+    $test_urls = new UrlTester($_POST['url'], $_POST['htaccess'], $_POST['delimiter']);
     ?>
 
     <?php if (count($test_urls->results['failed']) > 0): ?>
