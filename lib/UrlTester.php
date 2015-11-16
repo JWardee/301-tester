@@ -4,10 +4,8 @@
  */
 class UrlTester {
 
-    /**
-     * @var
-     */
     public $results;
+
     private $delimiter;
     private $root_url;
     private $old_new_urls;
@@ -19,16 +17,23 @@ class UrlTester {
      * @param string $delimiter
      */
     function __construct($root_url, $url_dump, $delimiter = ' ') {
-        $this->delimiter = $delimiter;
         $this->url_dump = $url_dump;
 
+        $this->SetDelimiter($delimiter);
         $this->SetRootUrl($root_url);
         $this->ProcessUrlDump();
         $this->TestAllUrls();
     }
 
-    /**
-     *
+	/**
+     * @param $delimiter
+     */
+    private function SetDelimiter($delimiter) {
+        $this->delimiter = $delimiter;
+    }
+
+	/**
+     * @param $url
      */
     private function SetRootUrl($url) {
         $this->root_url = 'http://'.$url;
@@ -43,7 +48,7 @@ class UrlTester {
         $this->old_new_urls = array();
 
         foreach ($urls_to_test as $url) {
-            $tmp = explode(' ', $url);
+            $tmp = explode($this->delimiter, $url);
 
             $tmp[0] = $this->ProcessUrlPart($tmp[0]);
             $tmp[1] = $this->ProcessUrlPart($tmp[1]);
