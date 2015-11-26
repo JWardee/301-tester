@@ -1,4 +1,4 @@
-/hospital-plan/hospital- /contact-us/
+/hospital-plan/hospital-plan /im-a-404-page/
 /news/janshir-issa-meets-bbc-presenter-konnie-huq /janshir-meets-bbc-presenter-konnie-huq/
 /diagnostics/diagnostics /diagnostics-outpatients/
 /cancer/cancer /cancer/
@@ -12,7 +12,7 @@
 /paediatric/paediatrics /paediatrics/
 /news/hca-international-limited-appoints-new-chief-financial-officer /news/
 /news/harley-street-clinic-saves-three-year-old /news/
-/cancer/radiotherapy /cancer/radiotherapy/
+/cancer/radiotherapy /cancer-radiotherapy/
 /legal/legal-information /
 /head-and-neck/welcome /multidisciplinary-teams-head-neck/
 /video/video /video-gallery/

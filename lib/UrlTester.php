@@ -93,7 +93,7 @@ class UrlTester {
             if ($test['success']) {
                 $this->results['succeeded'][] = array($url['old_url'].' '.$url['new_url']);
             } else {
-                $this->results['failed'][] = array($test['error'], $url['old_url'].' '.$url['new_url'], $test['response']);
+                $this->results['failed'][] = $test;
             }
 
             $i++;
@@ -125,10 +125,19 @@ class UrlTester {
             if ($response['url'] == trim($this->root_url.$new_url)) {
                 return array('success' => true);
             } else {
-                return array('success' => false, 'response' => $response, 'error' => 'This URL does not go to its intended destination');
+                return array('success' => false,
+                             'error' => 'This URL does not go to its intended destination',
+                             'entry_url' => $this->root_url.$old_url,
+                             'intended_exit_url' => $this->root_url.$new_url,
+                             'actual_exit_url' => $response['url'],
+                             'dump' => $response);
             }
         } else {
-            return array('success' => false, 'response' => $response, 'error' => 'This URL 404s');
+            return array('success' => false,
+                         'error' => 'This URL 404s',
+                         'entry_url' => $this->root_url.$old_url,
+                         'exit_url' => $response['url'],
+                         'dump' => $response);
         }
     }
 
