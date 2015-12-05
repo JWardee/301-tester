@@ -29,6 +29,11 @@ class UrlTester {
      * @param $delimiter
      */
     private function SetDelimiter($delimiter) {
+    	
+    	if (!isset($delimiter) || $delimiter == '') {
+    		$delimiter = ' '; // Default delimiter
+    	}
+    	
         $this->delimiter = $delimiter;
     }
 
