@@ -3,9 +3,8 @@
  * Class UrlTester
  */
 class UrlTester {
-
+	
     public $results;
-
     private $delimiter;
     private $root_url;
     private $old_new_urls;
@@ -18,18 +17,16 @@ class UrlTester {
      */
     function __construct($root_url, $url_dump, $delimiter = ' ') {
         $this->url_dump = $url_dump;
-
         $this->SetDelimiter($delimiter);
         $this->SetRootUrl($root_url);
         $this->ProcessUrlDump();
         $this->TestAllUrls();
     }
-
-	/**
+    
+    /**
      * @param $delimiter
      */
     private function SetDelimiter($delimiter) {
-    	
     	if (!isset($delimiter) || $delimiter == '') {
     		$delimiter = ' '; // Default delimiter
     	}
@@ -37,7 +34,7 @@ class UrlTester {
         $this->delimiter = $delimiter;
     }
 
-	/**
+    /**
      * @param $url
      */
     private function SetRootUrl($url) {
@@ -113,7 +110,6 @@ class UrlTester {
      * @return array
      */
     private function TestUrl($old_url, $new_url) {
-
         $ch = curl_init($this->root_url.$old_url);
         curl_setopt($ch, CURLOPT_HEADER, true);
         curl_setopt($ch, CURLOPT_NOBODY, true);
